@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema SOS Centralizado — Presentación</title>
+<title>ShakeSOS — Presentación</title>
 <style>
   :root {
     --bg-0: #050714;
@@ -496,7 +496,7 @@
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 
-<div class="brand"><b>●</b> SISTEMA SOS</div>
+<div class="brand"><b>●</b> SHAKESOS</div>
 <div class="counter"><b id="cur">1</b> / <span id="total">13</span></div>
 <div class="arrow-hint">Usa <kbd>←</kbd> <kbd>→</kbd> o <kbd>espacio</kbd></div>
 
@@ -510,9 +510,12 @@
       <span class="pill">Proyecto · 2026 <span class="live-dot">en desarrollo</span></span>
     </div>
     <div class="reveal">
-      <h1>SISTEMA SOS<br><span class="gradient-text">CENTRALIZADO</span></h1>
+      <h1><span class="gradient-text">Shake</span>SOS</h1>
     </div>
-    <div class="reveal" style="margin-top: 24px; max-width: 820px;">
+    <div class="reveal" style="margin-top: 12px;">
+      <p style="font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--amber); font-weight: 600; letter-spacing: 0.05em;">Sacude el celular. Avisa a quien te quiere.</p>
+    </div>
+    <div class="reveal" style="margin-top: 22px; max-width: 820px;">
       <p class="lead">Una app de seguridad personal donde tu celular solo tiene que decir <b style="color: var(--text);">"estoy en peligro"</b>.<br>El resto lo hace el servidor. <b style="color: var(--amber);">En cualquier teléfono, en cualquier red.</b></p>
     </div>
     <div class="reveal" style="margin-top: 50px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
@@ -627,13 +630,13 @@
   <!-- ============================================== -->
   <!-- SLIDE 5: ARQUITECTURA -->
   <!-- ============================================== -->
-  <section class="slide">
-    <div class="reveal">
-      <span class="pill">Arquitectura</span>
-      <h2>Una imagen <span class="gradient-text">vale más que mil endpoints</span></h2>
+  <section class="slide" style="align-items: center;">
+    <div class="reveal" style="text-align: center;">
+      <span class="pill">Cómo funciona</span>
+      <h2>Las <span class="gradient-text">3 piezas</span> del sistema</h2>
     </div>
-    <div class="reveal" style="margin-top: 20px;">
-      <svg class="arch-svg" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg">
+    <div class="reveal" style="margin-top: 24px; width: 100%; display: flex; justify-content: center;">
+      <svg class="arch-svg" viewBox="0 0 960 380" xmlns="http://www.w3.org/2000/svg" style="max-width: 1000px;">
         <defs>
           <linearGradient id="gRed" x1="0" x2="1">
             <stop offset="0" stop-color="#ef4444"/>
@@ -650,48 +653,51 @@
         </defs>
 
         <!-- Phone -->
-        <rect x="40" y="100" width="180" height="160" rx="16" fill="url(#gRed)" opacity="0.2" stroke="url(#gRed)" stroke-width="2"/>
-        <text x="130" y="135" fill="#f8fafc" font-size="16" font-weight="700" text-anchor="middle">CELULAR</text>
-        <text x="130" y="158" fill="#94a3b8" font-size="11" text-anchor="middle">cualquier gama / OS</text>
-        <text x="130" y="190" fill="#f8fafc" font-size="12" text-anchor="middle">• Disparador headless</text>
-        <text x="130" y="210" fill="#f8fafc" font-size="12" text-anchor="middle">• Cola SQLite local</text>
-        <text x="130" y="230" fill="#f8fafc" font-size="12" text-anchor="middle">• Strategy adaptativo</text>
-        <circle cx="130" cy="100" r="6" fill="#ef4444" class="ping"/>
+        <rect x="30" y="90" width="220" height="200" rx="18" fill="url(#gRed)" opacity="0.18" stroke="url(#gRed)" stroke-width="2"/>
+        <text x="140" y="125" fill="#f8fafc" font-size="18" font-weight="800" text-anchor="middle">TU CELULAR</text>
+        <text x="140" y="148" fill="#fbbf24" font-size="12" font-weight="600" text-anchor="middle">cualquier gama, cualquier red</text>
+        <text x="140" y="185" fill="#f8fafc" font-size="13" text-anchor="middle">Lo sacudes</text>
+        <text x="140" y="208" fill="#f8fafc" font-size="13" text-anchor="middle">o presionas un botón</text>
+        <text x="140" y="245" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">manda solo una señal corta</text>
+        <text x="140" y="263" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">(funciona offline)</text>
+        <circle cx="140" cy="90" r="6" fill="#ef4444" class="ping"/>
 
         <!-- Arrow phone → backend -->
-        <line x1="225" y1="180" x2="370" y2="180" stroke="url(#gAmber)" stroke-width="3" stroke-dasharray="6 4" class="pulse"/>
-        <polygon points="370,180 360,174 360,186" fill="#fbbf24"/>
-        <text x="298" y="170" fill="#fbbf24" font-size="11" font-weight="600" text-anchor="middle">payload mínimo</text>
-        <text x="298" y="198" fill="#94a3b8" font-size="10" text-anchor="middle">{id, gps, ts, audio?, txt}</text>
+        <line x1="255" y1="190" x2="385" y2="190" stroke="url(#gAmber)" stroke-width="3" stroke-dasharray="6 4" class="pulse"/>
+        <polygon points="385,190 375,184 375,196" fill="#fbbf24"/>
+        <text x="320" y="178" fill="#fbbf24" font-size="12" font-weight="700" text-anchor="middle">"Estoy en peligro"</text>
+        <text x="320" y="208" fill="#94a3b8" font-size="10" text-anchor="middle">+ ubicación GPS</text>
 
         <!-- Backend -->
-        <rect x="375" y="80" width="220" height="200" rx="16" fill="url(#gAmber)" opacity="0.2" stroke="url(#gAmber)" stroke-width="2"/>
-        <text x="485" y="110" fill="#f8fafc" font-size="16" font-weight="700" text-anchor="middle">BACKEND CENTRAL</text>
-        <text x="485" y="130" fill="#94a3b8" font-size="11" text-anchor="middle">Node.js + Postgres + Redis</text>
-        <text x="485" y="160" fill="#f8fafc" font-size="12" text-anchor="middle">• Valida y persiste</text>
-        <text x="485" y="180" fill="#f8fafc" font-size="12" text-anchor="middle">• Abanico SMS</text>
-        <text x="485" y="200" fill="#f8fafc" font-size="12" text-anchor="middle">• Magic link web</text>
-        <text x="485" y="220" fill="#f8fafc" font-size="12" text-anchor="middle">• WebSocket fan-out</text>
-        <text x="485" y="240" fill="#f8fafc" font-size="12" text-anchor="middle">• Custodia evidencia</text>
-        <circle cx="485" cy="80" r="6" fill="#fbbf24" class="ping"/>
+        <rect x="390" y="70" width="240" height="240" rx="18" fill="url(#gAmber)" opacity="0.18" stroke="url(#gAmber)" stroke-width="2"/>
+        <text x="510" y="105" fill="#f8fafc" font-size="18" font-weight="800" text-anchor="middle">NUESTRO SERVIDOR</text>
+        <text x="510" y="128" fill="#fbbf24" font-size="12" font-weight="600" text-anchor="middle">trabaja por ti, 24/7</text>
+        <text x="510" y="165" fill="#f8fafc" font-size="13" text-anchor="middle">Recibe la alerta</text>
+        <text x="510" y="188" fill="#f8fafc" font-size="13" text-anchor="middle">Avisa a tu familia</text>
+        <text x="510" y="211" fill="#f8fafc" font-size="13" text-anchor="middle">Comparte tu ubicación</text>
+        <text x="510" y="234" fill="#f8fafc" font-size="13" text-anchor="middle">Guarda la evidencia</text>
+        <text x="510" y="270" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">aunque te quiten el celular,</text>
+        <text x="510" y="287" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">la información está a salvo</text>
+        <circle cx="510" cy="70" r="6" fill="#fbbf24" class="ping"/>
 
         <!-- Arrow backend → contacts -->
-        <line x1="600" y1="180" x2="745" y2="180" stroke="url(#gCyan)" stroke-width="3" stroke-dasharray="6 4" class="pulse"/>
-        <polygon points="745,180 735,174 735,186" fill="#22d3ee"/>
-        <text x="673" y="170" fill="#22d3ee" font-size="11" font-weight="600" text-anchor="middle">SMS + WS</text>
+        <line x1="635" y1="190" x2="765" y2="190" stroke="url(#gCyan)" stroke-width="3" stroke-dasharray="6 4" class="pulse"/>
+        <polygon points="765,190 755,184 755,196" fill="#22d3ee"/>
+        <text x="700" y="178" fill="#22d3ee" font-size="12" font-weight="700" text-anchor="middle">SMS + link en vivo</text>
 
         <!-- Contacts -->
-        <rect x="750" y="100" width="120" height="160" rx="16" fill="url(#gCyan)" opacity="0.2" stroke="url(#gCyan)" stroke-width="2"/>
-        <text x="810" y="135" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">RED DE</text>
-        <text x="810" y="153" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">CONFIANZA</text>
-        <text x="810" y="190" fill="#f8fafc" font-size="11" text-anchor="middle">• SMS + link</text>
-        <text x="810" y="208" fill="#f8fafc" font-size="11" text-anchor="middle">• Web en vivo</text>
-        <text x="810" y="226" fill="#f8fafc" font-size="11" text-anchor="middle">• Mapa + audio</text>
-        <circle cx="810" cy="100" r="6" fill="#22d3ee" class="ping"/>
+        <rect x="770" y="90" width="170" height="200" rx="18" fill="url(#gCyan)" opacity="0.18" stroke="url(#gCyan)" stroke-width="2"/>
+        <text x="855" y="125" fill="#f8fafc" font-size="16" font-weight="800" text-anchor="middle">TU FAMILIA</text>
+        <text x="855" y="148" fill="#22d3ee" font-size="12" font-weight="600" text-anchor="middle">no necesitan instalar nada</text>
+        <text x="855" y="185" fill="#f8fafc" font-size="13" text-anchor="middle">Reciben un SMS</text>
+        <text x="855" y="208" fill="#f8fafc" font-size="13" text-anchor="middle">Abren un link</text>
+        <text x="855" y="231" fill="#f8fafc" font-size="13" text-anchor="middle">Ven dónde estás,</text>
+        <text x="855" y="251" fill="#f8fafc" font-size="13" text-anchor="middle">en tiempo real</text>
+        <circle cx="855" cy="90" r="6" fill="#22d3ee" class="ping"/>
       </svg>
     </div>
-    <div class="reveal" style="margin-top: 18px; text-align: center;">
-      <p class="lead" style="color: var(--text);">El celular nunca habla con los contactos. <b style="color: var(--amber);">Solo habla con el servidor.</b></p>
+    <div class="reveal" style="margin-top: 22px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
+      <p class="lead" style="color: var(--text);">Tu celular nunca habla con tu familia. <b style="color: var(--amber);">Solo habla con nuestro servidor</b> — y el servidor se encarga del resto.</p>
     </div>
   </section>
 
