@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema SOS Centralizado — Presentación</title>
+<style>
+  :root {
+    --bg-0: #050714;
+    --bg-1: #0f1226;
+    --bg-2: #1a1f3a;
+    --red: #ef4444;
+    --red-deep: #b91c1c;
+    --amber: #fbbf24;
+    --emerald: #10b981;
+    --cyan: #22d3ee;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    background: var(--bg-0);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 20% 10%, rgba(239,68,68,0.18), transparent 45%),
+      radial-gradient(circle at 80% 80%, rgba(251,191,36,0.10), transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(34,211,238,0.06), transparent 55%),
+      linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 60%, var(--bg-2) 100%);
+    background-attachment: fixed;
+    cursor: none;
+  }
+
+  /* Animated grid background */
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+    z-index: 0;
+    pointer-events: none;
+    animation: gridDrift 60s linear infinite;
+  }
+  @keyframes gridDrift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 60px 60px, 60px 60px; }
+  }
+
+  /* Cursor highlight */
+  .cursor-glow {
+    position: fixed;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(239,68,68,0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s cubic-bezier(0.16,1,0.3,1);
+    mix-blend-mode: screen;
+  }
+  .cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    pointer-events: none;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 16px var(--red);
+  }
+
+  /* Pulsing orbs background */
+  .orbs { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 18s ease-in-out infinite;
+  }
+  .orb.red    { width: 560px; height: 560px; background: var(--red);    top: -180px; left: -140px; animation-delay: 0s; }
+  .orb.amber  { width: 460px; height: 460px; background: var(--amber);  bottom: -150px; right: -120px; animation-delay: -6s; }
+  .orb.cyan   { width: 380px; height: 380px; background: var(--cyan);   top: 40%; left: 60%; animation-delay: -12s; opacity: 0.22; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(60px, -40px) scale(1.12); }
+    66%      { transform: translate(-40px, 50px) scale(0.92); }
+  }
+
+  /* Floating particles */
+  .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: var(--amber);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--amber);
+    opacity: 0;
+    animation: rise 9s linear infinite;
+  }
+  @keyframes rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.7; }
+    100% { transform: translateY(-110vh) translateX(40px); opacity: 0; }
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.05);
+    z-index: 20;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--amber));
+    width: 0%;
+    transition: width 0.55s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 0 10px var(--red);
+  }
+
+  /* Slide system */
+  .deck {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5vh 7vw;
+    opacity: 0;
+    transform: translateX(40px);
+    pointer-events: none;
+    transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+    overflow: auto;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .slide.prev {
+    transform: translateX(-40px);
+  }
+
+  /* Reveal-on-active for child elements */
+  .slide .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  }
+  .slide.active .reveal { opacity: 1; transform: translateY(0); }
+  .slide.active .reveal:nth-child(1) { transition-delay: 0.10s; }
+  .slide.active .reveal:nth-child(2) { transition-delay: 0.22s; }
+  .slide.active .reveal:nth-child(3) { transition-delay: 0.34s; }
+  .slide.active .reveal:nth-child(4) { transition-delay: 0.46s; }
+  .slide.active .reveal:nth-child(5) { transition-delay: 0.58s; }
+  .slide.active .reveal:nth-child(6) { transition-delay: 0.70s; }
+  .slide.active .reveal:nth-child(7) { transition-delay: 0.82s; }
+  .slide.active .reveal:nth-child(8) { transition-delay: 0.94s; }
+
+  /* Typography */
+  h1 { font-size: clamp(2.5rem, 6vw, 5.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+  .gradient-text {
+    background: linear-gradient(120deg, var(--red) 0%, var(--amber) 50%, var(--red) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 6s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  h1 .gradient-text { display: inline-block; }
+
+  /* Live dot for cover */
+  .live-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+    font-size: 0.65em;
+    color: var(--emerald);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+  .live-dot::before {
+    content: '';
+    width: 10px; height: 10px;
+    background: var(--emerald);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 var(--emerald);
+    animation: livePulse 1.6s ease-out infinite;
+  }
+  @keyframes livePulse {
+    0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); }
+    100% { box-shadow: 0 0 0 18px rgba(16,185,129,0); }
+  }
+  h2 { font-size: clamp(1.8rem, 3.6vw, 3.2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.8em; }
+  h3 { font-size: clamp(1.1rem, 1.8vw, 1.5rem); font-weight: 600; }
+  p  { font-size: clamp(1rem, 1.3vw, 1.2rem); line-height: 1.6; color: var(--muted); }
+  .lead { font-size: clamp(1.2rem, 1.8vw, 1.6rem); color: var(--text); }
+
+  .pill {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(239,68,68,0.15);
+    color: var(--red);
+    border: 1px solid rgba(239,68,68,0.3);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .pill.amber { background: rgba(251,191,36,0.12); color: var(--amber); border-color: rgba(251,191,36,0.3); }
+  .pill.cyan  { background: rgba(34,211,238,0.10); color: var(--cyan); border-color: rgba(34,211,238,0.3); }
+  .pill.emerald { background: rgba(16,185,129,0.12); color: var(--emerald); border-color: rgba(16,185,129,0.3); }
+
+  /* Glass cards */
+  .card {
+    position: relative;
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.4s ease;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(251,191,36,0.08) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+  }
+  .card:hover::before { transform: translateX(100%); }
+  .card:hover {
+    transform: translateY(-6px) scale(1.015);
+    border-color: rgba(239,68,68,0.5);
+    box-shadow: 0 20px 40px rgba(239,68,68,0.18);
+  }
+  .card .card-num {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--red), var(--red-deep));
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .card h3 { color: var(--text); margin-bottom: 6px; }
+  .card p { font-size: 0.95rem; color: var(--muted); }
+
+  /* Grids */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--glass-border); }
+  th { color: var(--amber); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.78rem; }
+  td { color: var(--muted); }
+  td.num { color: var(--text); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+  tfoot td { border-top: 2px solid var(--amber); padding-top: 14px; color: var(--text); font-weight: 700; font-size: 1.05rem; }
+
+  /* Architecture diagram */
+  .arch-svg { width: 100%; max-width: 900px; height: auto; margin: 0 auto; }
+  .arch-svg .pulse { animation: dashFlow 2s linear infinite; }
+  @keyframes dashFlow {
+    to { stroke-dashoffset: -20; }
+  }
+  .arch-svg .ping { animation: pingScale 2.5s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes pingScale {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.15); opacity: 0.7; }
+  }
+
+  /* Stat cards */
+  .stat {
+    text-align: center;
+    padding: 22px 16px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+  }
+  .stat-num {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--amber), var(--red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+  .stat-label { color: var(--muted); font-size: 0.88rem; margin-top: 6px; }
+
+  /* Feasibility bars */
+  .feas-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 90px;
+    gap: 16px;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .feas-bar { height: 12px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
+  .feas-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--amber), var(--emerald));
+    border-radius: 999px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+  .slide.active .feas-fill { transform: scaleX(var(--w, 1)); }
+  .feas-label { font-weight: 600; color: var(--text); }
+  .feas-value { color: var(--amber); font-weight: 700; text-align: right; }
+
+  /* Team avatars */
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .member {
+    text-align: center;
+    padding: 28px 14px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    transition: transform 0.4s, border-color 0.4s;
+  }
+  .member:hover { transform: translateY(-6px); border-color: var(--red); }
+  .avatar {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--red), var(--amber));
+    color: var(--bg-0);
+    box-shadow: 0 8px 24px rgba(239,68,68,0.3);
+  }
+  .member-name { font-weight: 700; color: var(--text); font-size: 1.02rem; }
+
+  /* Tech stack chips */
+  .tech-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 4px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .tech-chip:hover { transform: scale(1.05); border-color: var(--cyan); }
+  .tech-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+  .tech-chip.red .dot { background: var(--red); }
+  .tech-chip.amber .dot { background: var(--amber); }
+  .tech-chip.emerald .dot { background: var(--emerald); }
+
+  /* Timeline */
+  .timeline { position: relative; margin-top: 24px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--red), var(--amber), var(--emerald));
+  }
+  .tl-item { position: relative; padding-left: 56px; padding-bottom: 20px; }
+  .tl-dot {
+    position: absolute; left: 10px; top: 4px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--bg-0);
+    border: 3px solid var(--red);
+  }
+  .tl-item.amber .tl-dot { border-color: var(--amber); }
+  .tl-item.emerald .tl-dot { border-color: var(--emerald); }
+  .tl-item.cyan .tl-dot { border-color: var(--cyan); }
+
+  /* Slide chrome */
+  .nav {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 10;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .nav-dot.active { background: var(--red); transform: scale(1.4); }
+  .nav-dot:hover { background: var(--amber); }
+
+  .counter {
+    position: fixed; top: 22px; right: 28px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    z-index: 10;
+    background: rgba(0,0,0,0.3);
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+  }
+  .counter b { color: var(--text); }
+
+  .brand {
+    position: fixed; top: 22px; left: 28px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+  .brand b { color: var(--red); }
+
+  .arrow-hint {
+    position: fixed; bottom: 24px; right: 28px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    z-index: 10;
+  }
+  .arrow-hint kbd {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--text);
+    margin: 0 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4, .team-grid { grid-template-columns: 1fr 1fr; }
+    .slide { padding: 4vh 5vw; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3, .grid-4, .team-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orbs">
+  <div class="orb red"></div>
+  <div class="orb amber"></div>
+  <div class="orb cyan"></div>
+</div>
+<div class="particles" id="particles"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="brand"><b>●</b> SISTEMA SOS</div>
+<div class="counter"><b id="cur">1</b> / <span id="total">13</span></div>
+<div class="arrow-hint">Usa <kbd>←</kbd> <kbd>→</kbd> o <kbd>espacio</kbd></div>
+
+<div class="deck" id="deck">
+
+  <!-- ============================================== -->
+  <!-- SLIDE 1: COVER -->
+  <!-- ============================================== -->
+  <section class="slide active">
+    <div class="reveal">
+      <span class="pill">Proyecto · 2026 <span class="live-dot">en desarrollo</span></span>
+    </div>
+    <div class="reveal">
+      <h1>SISTEMA SOS<br><span class="gradient-text">CENTRALIZADO</span></h1>
+    </div>
+    <div class="reveal" style="margin-top: 24px; max-width: 820px;">
+      <p class="lead">Una app de seguridad personal donde tu celular solo tiene que decir <b style="color: var(--text);">"estoy en peligro"</b>.<br>El resto lo hace el servidor. <b style="color: var(--amber);">En cualquier teléfono, en cualquier red.</b></p>
+    </div>
+    <div class="reveal" style="margin-top: 50px; display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+      <div>
+        <div style="font-size: 0.78rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;">Equipo</div>
+        <div style="color: var(--text); font-weight: 600; font-size: 1.05rem;">
+          Jaydeth Simarra · Steven Perilla · Bryam Villalba · Daniel Bolívar
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 2: EL PROBLEMA -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill">El problema</span>
+      <h2>Las apps de pánico actuales <span class="gradient-text">fallan justo cuando importan</span></h2>
+    </div>
+    <div class="reveal grid-3" style="margin-top: 30px;">
+      <div class="card">
+        <div class="card-num">1</div>
+        <h3>Excluyen al 60% de usuarios</h3>
+        <p>Asumen iPhone moderno, 4G/5G estable y datos ilimitados. La gama baja y zonas rurales quedan fuera.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">2</div>
+        <h3>Se delatan ante el agresor</h3>
+        <p>iOS y Android fuerzan indicadores visibles cuando se usa cámara o micrófono. La "app camuflada" es ficción.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">3</div>
+        <h3>Pierden el evento si baja la red</h3>
+        <p>El SMS directo y el video en vivo dependen de cobertura instantánea. Si no hay señal, no hay alerta.</p>
+      </div>
+    </div>
+    <div class="reveal grid-4" style="margin-top: 36px;">
+      <div class="stat">
+        <div class="stat-num">68%</div>
+        <div class="stat-label">colombianos con celular gama media-baja</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1 de 3</div>
+        <div class="stat-label">mujeres reporta haber sufrido violencia</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15 min</div>
+        <div class="stat-label">tiempo promedio de respuesta policial urbana</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">apps actuales que funcionen offline-first</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 3: LA IDEA -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill amber">Nuestra propuesta</span>
+      <h2>El celular dispara,<br><span class="gradient-text">el servidor hace todo lo demás</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 24px; max-width: 900px;">
+      <p class="lead">Una app de seguridad personal donde tu celular solo tiene que decir <b style="color: var(--text);">"estoy en peligro"</b>. El resto —avisarle a tu familia, mostrar en vivo dónde estás y guardar la evidencia— lo hace todo nuestro servidor. <b style="color: var(--amber);">Funciona en cualquier teléfono, en cualquier red.</b></p>
+    </div>
+    <div class="reveal grid-3" style="margin-top: 40px;">
+      <div class="card">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--cyan), #0891b2);">⟶</div>
+        <h3>Resiliente</h3>
+        <p>Cola SQLite local: si no hay red, encola. Cuando vuelve la señal, dispara automáticamente.</p>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--amber), #d97706);">★</div>
+        <h3>Universal</h3>
+        <p>Funciona idéntico en iPhone 5G premium o Android básico de COP $300K con 2G intermitente.</p>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--emerald), #059669);">✓</div>
+        <h3>Verificable</h3>
+        <p>El backend persiste cada evento con timestamp y firma. La evidencia sobrevive aunque destruyan el celular.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 4: POR QUÉ NO EXISTE -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill cyan">Innovación</span>
+      <h2>Por qué <span class="gradient-text">esto no existe todavía</span></h2>
+    </div>
+    <div class="reveal grid-2" style="margin-top: 28px;">
+      <div class="card">
+        <h3 style="color: var(--red); margin-bottom: 12px;">Lo que hay en el mercado</h3>
+        <p style="margin-bottom: 8px;"><b style="color: var(--text);">bSafe, Noonlight, Life360</b> → diseñadas para mercado norteamericano. Asumen smartphone moderno, datos ilimitados y reloj inteligente.</p>
+        <p style="margin-bottom: 8px;"><b style="color: var(--text);">SOS nativo iOS / Android</b> → solo llama al 911. No notifica a contactos personales ni preserva evidencia en la nube.</p>
+        <p><b style="color: var(--text);">Apps de pánico locales</b> → orquestan SMS desde el dispositivo. Falla apenas baja la red.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.04);">
+        <h3 style="color: var(--amber); margin-bottom: 12px;">Nuestra diferencia</h3>
+        <p style="margin-bottom: 8px;"><b style="color: var(--text);">Centralizada por diseño</b> → el celular es trivial; el backend escala a millones. Una sola arquitectura sirve a todos.</p>
+        <p style="margin-bottom: 8px;"><b style="color: var(--text);">Offline-first nativo</b> → cola SQLite + Strategy de captura adaptativa según red. Cero eventos perdidos.</p>
+        <p><b style="color: var(--text);">Red de confianza sin app</b> → los contactos siguen la ubicación en una página web vía magic link. Nada que instalar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 5: ARQUITECTURA -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill">Arquitectura</span>
+      <h2>Una imagen <span class="gradient-text">vale más que mil endpoints</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 20px;">
+      <svg class="arch-svg" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gRed" x1="0" x2="1">
+            <stop offset="0" stop-color="#ef4444"/>
+            <stop offset="1" stop-color="#b91c1c"/>
+          </linearGradient>
+          <linearGradient id="gAmber" x1="0" x2="1">
+            <stop offset="0" stop-color="#fbbf24"/>
+            <stop offset="1" stop-color="#d97706"/>
+          </linearGradient>
+          <linearGradient id="gCyan" x1="0" x2="1">
+            <stop offset="0" stop-color="#22d3ee"/>
+            <stop offset="1" stop-color="#0891b2"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Phone -->
+        <rect x="40" y="100" width="180" height="160" rx="16" fill="url(#gRed)" opacity="0.2" stroke="url(#gRed)" stroke-width="2"/>
+        <text x="130" y="135" fill="#f8fafc" font-size="16" font-weight="700" text-anchor="middle">CELULAR</text>
+        <text x="130" y="158" fill="#94a3b8" font-size="11" text-anchor="middle">cualquier gama / OS</text>
+        <text x="130" y="190" fill="#f8fafc" font-size="12" text-anchor="middle">• Disparador headless</text>
+        <text x="130" y="210" fill="#f8fafc" font-size="12" text-anchor="middle">• Cola SQLite local</text>
+        <text x="130" y="230" fill="#f8fafc" font-size="12" text-anchor="middle">• Strategy adaptativo</text>
+        <circle cx="130" cy="100" r="6" fill="#ef4444" class="ping"/>
+
+        <!-- Arrow phone → backend -->
+        <line x1="225" y1="180" x2="370" y2="180" stroke="url(#gAmber)" stroke-width="3" stroke-dasharray="6 4" class="pulse"/>
+        <polygon points="370,180 360,174 360,186" fill="#fbbf24"/>
+        <text x="298" y="170" fill="#fbbf24" font-size="11" font-weight="600" text-anchor="middle">payload mínimo</text>
+        <text x="298" y="198" fill="#94a3b8" font-size="10" text-anchor="middle">{id, gps, ts, audio?, txt}</text>
+
+        <!-- Backend -->
+        <rect x="375" y="80" width="220" height="200" rx="16" fill="url(#gAmber)" opacity="0.2" stroke="url(#gAmber)" stroke-width="2"/>
+        <text x="485" y="110" fill="#f8fafc" font-size="16" font-weight="700" text-anchor="middle">BACKEND CENTRAL</text>
+        <text x="485" y="130" fill="#94a3b8" font-size="11" text-anchor="middle">Node.js + Postgres + Redis</text>
+        <text x="485" y="160" fill="#f8fafc" font-size="12" text-anchor="middle">• Valida y persiste</text>
+        <text x="485" y="180" fill="#f8fafc" font-size="12" text-anchor="middle">• Abanico SMS</text>
+        <text x="485" y="200" fill="#f8fafc" font-size="12" text-anchor="middle">• Magic link web</text>
+        <text x="485" y="220" fill="#f8fafc" font-size="12" text-anchor="middle">• WebSocket fan-out</text>
+        <text x="485" y="240" fill="#f8fafc" font-size="12" text-anchor="middle">• Custodia evidencia</text>
+        <circle cx="485" cy="80" r="6" fill="#fbbf24" class="ping"/>
+
+        <!-- Arrow backend → contacts -->
+        <line x1="600" y1="180" x2="745" y2="180" stroke="url(#gCyan)" stroke-width="3" stroke-dasharray="6 4" class="pulse"/>
+        <polygon points="745,180 735,174 735,186" fill="#22d3ee"/>
+        <text x="673" y="170" fill="#22d3ee" font-size="11" font-weight="600" text-anchor="middle">SMS + WS</text>
+
+        <!-- Contacts -->
+        <rect x="750" y="100" width="120" height="160" rx="16" fill="url(#gCyan)" opacity="0.2" stroke="url(#gCyan)" stroke-width="2"/>
+        <text x="810" y="135" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">RED DE</text>
+        <text x="810" y="153" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle">CONFIANZA</text>
+        <text x="810" y="190" fill="#f8fafc" font-size="11" text-anchor="middle">• SMS + link</text>
+        <text x="810" y="208" fill="#f8fafc" font-size="11" text-anchor="middle">• Web en vivo</text>
+        <text x="810" y="226" fill="#f8fafc" font-size="11" text-anchor="middle">• Mapa + audio</text>
+        <circle cx="810" cy="100" r="6" fill="#22d3ee" class="ping"/>
+      </svg>
+    </div>
+    <div class="reveal" style="margin-top: 18px; text-align: center;">
+      <p class="lead" style="color: var(--text);">El celular nunca habla con los contactos. <b style="color: var(--amber);">Solo habla con el servidor.</b></p>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 6: LOS 4 PILARES -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill">Pilares técnicos</span>
+      <h2>Los <span class="gradient-text">4 pilares</span> del refactor</h2>
+    </div>
+    <div class="reveal grid-2" style="margin-top: 30px;">
+      <div class="card">
+        <div class="card-num">①</div>
+        <h3>Captura adaptativa (offline-first)</h3>
+        <p>Patrón <i>Strategy</i> en el cliente. Con buena red: audio comprimido + GPS. Con red caída: solo texto+GPS, encolado en SQLite. Apenas vuelve un byte de conectividad, un worker dispara la cola asíncronamente. <b style="color: var(--amber);">Cero eventos perdidos.</b></p>
+      </div>
+      <div class="card">
+        <div class="card-num">②</div>
+        <h3>Orquestación en el servidor</h3>
+        <p>El cliente envía un único payload ligero. El backend (Node.js para alta concurrencia) decide a quién avisar, qué canal usar y cómo persistir. <b style="color: var(--amber);">El celular se libera de mantener N conexiones simultáneas.</b></p>
+      </div>
+      <div class="card">
+        <div class="card-num">③</div>
+        <h3>Activación headless validada</h3>
+        <p>Sin "app falsa". El disparador real (gesto de acelerómetro, Quick Settings Tile, Assistant Shortcut) se valida primero con un <b style="color: var(--amber);">PoC bloqueante</b> antes de tocar el backend. La evidencia es inevitable, no invisible.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">④</div>
+        <h3>Acompañante con geofencing pasivo</h3>
+        <p>Adiós al temporizador con PIN. El usuario indica destino; el sistema vigila la ruta. Ante desvío anómalo, push silencioso vibratorio. <b style="color: var(--amber);">Solo si no se descarta, escala la alerta.</b> Cero fatiga de alarma.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 7: TECH STACK -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill cyan">Stack tecnológico</span>
+      <h2>Tecnologías <span class="gradient-text">elegidas a propósito</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 30px;">
+      <h3 style="color: var(--amber); margin-bottom: 12px;">Backend</h3>
+      <div>
+        <span class="tech-chip amber"><span class="dot"></span>Node.js 22</span>
+        <span class="tech-chip amber"><span class="dot"></span>Express / Fastify</span>
+        <span class="tech-chip amber"><span class="dot"></span>PostgreSQL 16</span>
+        <span class="tech-chip amber"><span class="dot"></span>Redis (pub/sub)</span>
+        <span class="tech-chip amber"><span class="dot"></span>Socket.io</span>
+        <span class="tech-chip amber"><span class="dot"></span>BullMQ (colas)</span>
+        <span class="tech-chip amber"><span class="dot"></span>JWT + Magic links</span>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 22px;">
+      <h3 style="color: var(--red); margin-bottom: 12px;">Cliente móvil</h3>
+      <div>
+        <span class="tech-chip red"><span class="dot"></span>Kotlin (Android)</span>
+        <span class="tech-chip red"><span class="dot"></span>WorkManager</span>
+        <span class="tech-chip red"><span class="dot"></span>Room (SQLite)</span>
+        <span class="tech-chip red"><span class="dot"></span>Foreground Service</span>
+        <span class="tech-chip red"><span class="dot"></span>Sensor API</span>
+        <span class="tech-chip red"><span class="dot"></span>Swift (iOS · fase 2)</span>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 22px;">
+      <h3 style="color: var(--cyan); margin-bottom: 12px;">Web del contacto</h3>
+      <div>
+        <span class="tech-chip"><span class="dot"></span>HTML + Vanilla JS</span>
+        <span class="tech-chip"><span class="dot"></span>Mapbox GL JS</span>
+        <span class="tech-chip"><span class="dot"></span>WebSocket nativo</span>
+        <span class="tech-chip"><span class="dot"></span>Sin instalación</span>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 22px;">
+      <h3 style="color: var(--emerald); margin-bottom: 12px;">Infraestructura y servicios</h3>
+      <div>
+        <span class="tech-chip emerald"><span class="dot"></span>DigitalOcean / AWS</span>
+        <span class="tech-chip emerald"><span class="dot"></span>Docker</span>
+        <span class="tech-chip emerald"><span class="dot"></span>Twilio (SMS)</span>
+        <span class="tech-chip emerald"><span class="dot"></span>Firebase Cloud Messaging</span>
+        <span class="tech-chip emerald"><span class="dot"></span>Cloudflare R2 (audio)</span>
+        <span class="tech-chip emerald"><span class="dot"></span>Sentry + Grafana</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 8: FACTIBILIDAD -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill emerald">Factibilidad</span>
+      <h2>¿Es <span class="gradient-text">realmente posible</span> construirlo?</h2>
+    </div>
+    <div class="reveal" style="margin-top: 28px;">
+      <div class="feas-row">
+        <div class="feas-label">Técnica · Backend</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.95"></div></div>
+        <div class="feas-value">95% · Alta</div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">Técnica · Android</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.75"></div></div>
+        <div class="feas-value">75% · Media-Alta</div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">Técnica · iOS</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.50"></div></div>
+        <div class="feas-value">50% · Media</div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">Mercado / Demanda</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.90"></div></div>
+        <div class="feas-value">90% · Alta</div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">Económica (bootstrap)</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.85"></div></div>
+        <div class="feas-value">85% · Alta</div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">Legal · Ley 1581/2012</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.70"></div></div>
+        <div class="feas-value">70% · Media</div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">Operacional (24/7)</div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.65"></div></div>
+        <div class="feas-value">65% · Media</div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 24px;">
+      <p style="color: var(--text);"><b style="color: var(--amber);">Riesgo crítico bloqueante:</b> validar con un PoC en Android puro si el OS permite leer el disparador en background sin Accessibility Services (Google Play los rechaza). Ese PoC define la viabilidad del producto entero.</p>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 9: COSTOS - INFRAESTRUCTURA -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill amber">Manual de costos · Año 1</span>
+      <h2>Infraestructura y <span class="gradient-text">servicios cloud</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 22px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Detalle</th>
+            <th style="text-align:right;">USD/mes</th>
+            <th style="text-align:right;">COP/año</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Servidor backend</td><td>DigitalOcean droplet 4GB RAM × 2</td><td class="num">48</td><td class="num">$ 2.400.000</td></tr>
+          <tr><td>PostgreSQL gestionado</td><td>DO Managed DB básico</td><td class="num">25</td><td class="num">$ 1.250.000</td></tr>
+          <tr><td>Redis</td><td>Para WebSocket pub/sub</td><td class="num">15</td><td class="num">$ 750.000</td></tr>
+          <tr><td>Storage de audio</td><td>Cloudflare R2 (~50 GB activos)</td><td class="num">12</td><td class="num">$ 600.000</td></tr>
+          <tr><td>SMS · Twilio</td><td>~1.000 alertas/mes × USD $0.04</td><td class="num">40</td><td class="num">$ 2.000.000</td></tr>
+          <tr><td>Mapas · Mapbox</td><td>~50K cargas/mes</td><td class="num">50</td><td class="num">$ 2.500.000</td></tr>
+          <tr><td>Push notifications</td><td>Firebase FCM</td><td class="num">0</td><td class="num">$ 0</td></tr>
+          <tr><td>Monitoring</td><td>Sentry + UptimeRobot</td><td class="num">26</td><td class="num">$ 1.300.000</td></tr>
+          <tr><td>Email transaccional</td><td>Resend / SendGrid</td><td class="num">20</td><td class="num">$ 1.000.000</td></tr>
+          <tr><td>CDN + DNS</td><td>Cloudflare Pro</td><td class="num">20</td><td class="num">$ 1.000.000</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Subtotal infraestructura año 1</td><td class="num">256</td><td class="num">$ 12.800.000</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 10: COSTOS - DESARROLLO Y EQUIPO -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill amber">Manual de costos · Año 1</span>
+      <h2>Equipo, licencias y <span class="gradient-text">gastos legales</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 22px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Detalle</th>
+            <th style="text-align:right;">Costo</th>
+            <th style="text-align:right;">COP/año</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" style="color: var(--amber); font-weight: 600; padding-top: 18px;">EQUIPO (4 integrantes · 6 meses MVP)</td></tr>
+          <tr><td>Tech Lead / Backend</td><td>1 persona · COP 8M/mes × 6</td><td class="num">8M/mes</td><td class="num">$ 48.000.000</td></tr>
+          <tr><td>Dev Android</td><td>1 persona · COP 6M/mes × 6</td><td class="num">6M/mes</td><td class="num">$ 36.000.000</td></tr>
+          <tr><td>Dev Backend Mid</td><td>1 persona · COP 5M/mes × 6</td><td class="num">5M/mes</td><td class="num">$ 30.000.000</td></tr>
+          <tr><td>Dev Frontend / Web</td><td>1 persona · COP 4M/mes × 6</td><td class="num">4M/mes</td><td class="num">$ 24.000.000</td></tr>
+
+          <tr><td colspan="4" style="color: var(--cyan); font-weight: 600; padding-top: 18px;">LICENCIAS Y CUENTAS</td></tr>
+          <tr><td>Apple Developer</td><td>USD 99/año (fase iOS)</td><td class="num">$99/yr</td><td class="num">$ 400.000</td></tr>
+          <tr><td>Google Play Developer</td><td>USD 25 único</td><td class="num">$25</td><td class="num">$ 100.000</td></tr>
+          <tr><td>Dominio .com + SSL</td><td>Anual</td><td class="num">$15/yr</td><td class="num">$ 60.000</td></tr>
+          <tr><td>Figma Pro × 4</td><td>USD 12/usuario/mes</td><td class="num">$48/mes</td><td class="num">$ 2.400.000</td></tr>
+          <tr><td>GitHub Team × 4</td><td>USD 4/usuario/mes</td><td class="num">$16/mes</td><td class="num">$ 800.000</td></tr>
+
+          <tr><td colspan="4" style="color: var(--emerald); font-weight: 600; padding-top: 18px;">LEGAL Y OPERATIVO</td></tr>
+          <tr><td>Asesoría legal datos personales</td><td>Ley 1581/2012, ToS, política privacidad</td><td class="num">—</td><td class="num">$ 8.000.000</td></tr>
+          <tr><td>Pruebas con usuarios reales</td><td>Incentivos + viáticos</td><td class="num">—</td><td class="num">$ 5.000.000</td></tr>
+          <tr><td>Marketing lanzamiento</td><td>Ads + relacionamiento</td><td class="num">—</td><td class="num">$ 6.000.000</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="3">Subtotal equipo + operativo año 1</td><td class="num">$ 160.760.000</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 11: COSTOS - TOTAL Y ESCENARIOS -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill amber">Manual de costos · Resumen</span>
+      <h2>Inversión total y <span class="gradient-text">escenarios</span></h2>
+    </div>
+    <div class="reveal grid-3" style="margin-top: 30px;">
+      <div class="card" style="border-color: rgba(34,211,238,0.3);">
+        <div style="font-size: 0.78rem; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase;">Escenario Académico</div>
+        <h3 style="font-size: 1.6rem; margin-top: 8px; color: var(--text);">$ 12.8M</h3>
+        <p style="margin-top: 6px;">Solo infraestructura. El equipo desarrolla como proyecto de grado. Despliegue limitado a 200 usuarios beta.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.05);">
+        <div style="font-size: 0.78rem; color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase;">Escenario Bootstrap ★</div>
+        <h3 style="font-size: 1.6rem; margin-top: 8px; color: var(--text);">$ 35M</h3>
+        <p style="margin-top: 6px;">Infra + legal + licencias + marketing inicial. Equipo en modo equity / pago diferido. Lanzamiento real a 5K usuarios.</p>
+      </div>
+      <div class="card" style="border-color: rgba(239,68,68,0.3);">
+        <div style="font-size: 0.78rem; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase;">Escenario Inversión Seed</div>
+        <h3 style="font-size: 1.6rem; margin-top: 8px; color: var(--text);">$ 173M</h3>
+        <p style="margin-top: 6px;">Equipo full-time pagado 6 meses + infraestructura + legal + marketing. Producto listo para 50K+ usuarios.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 30px;">
+      <h3 style="color: var(--amber); margin-bottom: 12px;">Costo unitario por usuario activo (escenario Bootstrap)</h3>
+      <div class="grid-4">
+        <div class="stat">
+          <div class="stat-num">$ 2.500</div>
+          <div class="stat-label">por alerta procesada (incluye SMS + storage)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">$ 580</div>
+          <div class="stat-label">por usuario activo/mes (infraestructura)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">$ 7.000</div>
+          <div class="stat-label">break-even mensual por usuario premium</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">18 meses</div>
+          <div class="stat-label">runway proyectado con 5K usuarios pagos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 12: ROADMAP -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill">Roadmap MVP · 6 meses</span>
+      <h2>De la idea al <span class="gradient-text">producto en producción</span></h2>
+    </div>
+    <div class="reveal timeline" style="margin-top: 28px; max-width: 800px;">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <h3 style="color: var(--red);">Mes 1 · PoC Bloqueante</h3>
+        <p>Validar en Android puro: lectura de gestos en background, viabilidad sin Accessibility Services, pruebas con Quick Settings Tile y Assistant Shortcut. <b style="color: var(--text);">Sin este veredicto, no se construye nada más.</b></p>
+      </div>
+      <div class="tl-item amber">
+        <div class="tl-dot"></div>
+        <h3 style="color: var(--amber);">Mes 2-3 · Backend + Web del contacto</h3>
+        <p>Endpoints <code>POST /alerta</code>, <code>WS /seguir/:link</code>. Magic link, fan-out vía Socket.io, persistencia en Postgres, integración Twilio.</p>
+      </div>
+      <div class="tl-item amber">
+        <div class="tl-dot"></div>
+        <h3 style="color: var(--amber);">Mes 3-5 · Cliente Android completo</h3>
+        <p>Foreground service, cola SQLite (Room), Strategy de captura, integración con backend, modo Acompañante con geofencing.</p>
+      </div>
+      <div class="tl-item emerald">
+        <div class="tl-dot"></div>
+        <h3 style="color: var(--emerald);">Mes 5-6 · Beta cerrada y publicación</h3>
+        <p>200 usuarios beta en Bogotá, ajustes UX, certificación legal, publicación en Google Play. Métricas: tiempo de propagación, tasa de éxito offline.</p>
+      </div>
+      <div class="tl-item cyan">
+        <div class="tl-dot"></div>
+        <h3 style="color: var(--cyan);">Post-MVP · iOS + escalamiento</h3>
+        <p>Cliente iOS con Siri Shortcut + Live Activity. Escalamiento a otras ciudades. Integración con líneas oficiales (123, 155).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 13: EQUIPO + CIERRE -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill">Equipo</span>
+      <h2>Las <span class="gradient-text">manos detrás</span> del proyecto</h2>
+    </div>
+    <div class="reveal team-grid" style="margin-top: 36px;">
+      <div class="member">
+        <div class="avatar">JS</div>
+        <div class="member-name">Jaydeth Simarra</div>
+        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">Backend & Arquitectura</div>
+      </div>
+      <div class="member">
+        <div class="avatar">SP</div>
+        <div class="member-name">Steven Perilla</div>
+        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">Cliente Android</div>
+      </div>
+      <div class="member">
+        <div class="avatar">BV</div>
+        <div class="member-name">Bryam Villalba</div>
+        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">Frontend Web & UX</div>
+      </div>
+      <div class="member">
+        <div class="avatar">DB</div>
+        <div class="member-name">Daniel Bolívar</div>
+        <div style="color: var(--muted); font-size: 0.85rem; margin-top: 4px;">DevOps & Infraestructura</div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 60px; text-align: center;">
+      <h2 style="font-size: clamp(1.6rem, 3vw, 2.6rem);">El celular dispara,<br><span class="gradient-text">el servidor responde</span>.</h2>
+      <p class="lead" style="margin-top: 16px; color: var(--muted);">¿Preguntas?</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  document.getElementById('total').textContent = total;
+  let current = 0;
+
+  // Build nav dots
+  const nav = document.createElement('div');
+  nav.className = 'nav';
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => go(i));
+    nav.appendChild(dot);
+  }
+  document.body.appendChild(nav);
+  const dots = nav.querySelectorAll('.nav-dot');
+
+  const progressBar = document.getElementById('progressBar');
+
+  function go(i) {
+    if (i < 0 || i >= total || i === current) return;
+    slides[current].classList.remove('active');
+    if (i < current) slides[current].classList.add('prev');
+    else slides[current].classList.remove('prev');
+    current = i;
+    slides[current].classList.add('active');
+    slides[current].classList.remove('prev');
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+    document.getElementById('cur').textContent = current + 1;
+    progressBar.style.width = ((current + 1) / total * 100) + '%';
+    slides.forEach((s, idx) => { if (idx !== current) s.classList.remove('active'); });
+    animateNumbers(slides[current]);
+  }
+  progressBar.style.width = (1 / total * 100) + '%';
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(current + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp')                 { e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home')                                            { e.preventDefault(); go(0); }
+    else if (e.key === 'End')                                             { e.preventDefault(); go(total - 1); }
+  });
+
+  // Touch swipe
+  let tx = 0;
+  document.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (dx < -60) go(current + 1);
+    else if (dx > 60) go(current - 1);
+  });
+
+  // Cursor highlight
+  const glow = document.getElementById('cursorGlow');
+  const dot  = document.getElementById('cursorDot');
+  let mx = window.innerWidth/2, my = window.innerHeight/2;
+  let gx = mx, gy = my;
+  document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
+  function animateGlow() {
+    gx += (mx - gx) * 0.12;
+    gy += (my - gy) * 0.12;
+    glow.style.left = gx + 'px';
+    glow.style.top  = gy + 'px';
+    requestAnimationFrame(animateGlow);
+  }
+  animateGlow();
+
+  // Floating particles
+  const particles = document.getElementById('particles');
+  for (let i = 0; i < 24; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.top  = (100 + Math.random() * 20) + 'vh';
+    p.style.animationDelay = (Math.random() * 9) + 's';
+    p.style.animationDuration = (7 + Math.random() * 6) + 's';
+    p.style.background = ['#fbbf24', '#ef4444', '#22d3ee'][Math.floor(Math.random() * 3)];
+    p.style.boxShadow = '0 0 8px ' + p.style.background;
+    particles.appendChild(p);
+  }
+
+  // Animated number counters
+  function animateNumbers(slide) {
+    slide.querySelectorAll('.stat-num').forEach(el => {
+      if (el.dataset.animated) return;
+      const text = el.textContent.trim();
+      const match = text.match(/^([^\d]*)(\d[\d.,]*)(.*)$/);
+      if (!match) return;
+      const prefix = match[1];
+      const numStr = match[2].replace(/\./g, '').replace(/,/g, '.');
+      const target = parseFloat(numStr);
+      if (isNaN(target)) return;
+      const suffix = match[3];
+      const duration = 1100;
+      const start = performance.now();
+      el.dataset.animated = '1';
+      const isInt = !numStr.includes('.');
+      function step(t) {
+        const p = Math.min((t - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const cur = target * eased;
+        let display;
+        if (isInt) display = Math.floor(cur).toLocaleString('es-CO');
+        else display = cur.toFixed(1);
+        el.textContent = prefix + display + suffix;
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = text;
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  // Trigger for first slide
+  setTimeout(() => animateNumbers(slides[0]), 200);
+</script>
+
+</body>
+</html>
