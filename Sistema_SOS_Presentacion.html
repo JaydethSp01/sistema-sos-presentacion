@@ -331,11 +331,13 @@
   /* Feasibility bars */
   .feas-row {
     display: grid;
-    grid-template-columns: 200px 1fr 90px;
-    gap: 16px;
+    grid-template-columns: 280px 1fr 160px;
+    gap: 18px;
     align-items: center;
     padding: 10px 0;
   }
+  .feas-label { line-height: 1.3; }
+  .feas-value { line-height: 1.3; }
   .feas-bar { height: 12px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
   .feas-fill {
     height: 100%;
@@ -734,7 +736,40 @@
   </section>
 
   <!-- ============================================== -->
-  <!-- SLIDE 7: TECH STACK -->
+  <!-- SLIDE 7 (NUEVA): FALSOS POSITIVOS -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill amber">Pregunta clave</span>
+      <h2>¿Y si lo sacudo <span class="gradient-text">sin querer?</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 14px; max-width: 900px;">
+      <p class="lead">Una buena pregunta. La respuesta son <b style="color: var(--amber);">tres capas de defensa</b> que evitan que tu celular mande alertas falsas mientras corres, bailas, o lo metes al bolsillo bruscamente.</p>
+    </div>
+    <div class="reveal grid-3" style="margin-top: 36px;">
+      <div class="card">
+        <div class="card-num">①</div>
+        <h3>Detección inteligente</h3>
+        <p>El sistema <b style="color: var(--text);">no se activa con cualquier movimiento</b>. Está calibrado para reconocer solo el patrón de una sacudida violenta y deliberada: tres movimientos bruscos en menos de 1 segundo. Caminar, trotar o botar el celular en la mesa <b style="color: var(--text);">no lo dispara</b>.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">②</div>
+        <h3>Ventana de cancelación</h3>
+        <p>Cuando detecta la sacudida, el celular <b style="color: var(--text);">vibra fuerte durante 10 segundos antes de mandar la alerta</b>. Si fue sin querer, tocas la pantalla o aprietas un botón y se cancela. <b style="color: var(--amber);">Solo si esos 10 segundos pasan sin respuesta</b>, sale el aviso a tu familia y al servidor.</p>
+      </div>
+      <div class="card">
+        <div class="card-num">③</div>
+        <h3>Modo seguro opcional</h3>
+        <p>Para usuarios más temerosos a falsos positivos: el "modo seguro" exige <b style="color: var(--text);">dos sacudidas separadas por menos de 5 segundos</b> para disparar. Casi imposible de activar por accidente, pero igual de fácil cuando realmente lo necesitas.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 28px; padding: 18px 22px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px;">
+      <p style="color: var(--text); margin: 0;"><b style="color: var(--emerald);">Bonus:</b> cada usuario aprende. Si cancelas muchas alarmas falsas, el sistema ajusta automáticamente la sensibilidad de tu sacudida. <b style="color: var(--text);">Con el tiempo, conoce tu manera de moverte.</b></p>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 8: TECH STACK -->
   <!-- ============================================== -->
   <section class="slide">
     <div class="reveal">
@@ -787,52 +822,55 @@
   </section>
 
   <!-- ============================================== -->
-  <!-- SLIDE 8: FACTIBILIDAD -->
+  <!-- SLIDE 9: FACTIBILIDAD -->
   <!-- ============================================== -->
   <section class="slide">
     <div class="reveal">
       <span class="pill emerald">Factibilidad</span>
       <h2>¿Es <span class="gradient-text">realmente posible</span> construirlo?</h2>
     </div>
-    <div class="reveal" style="margin-top: 28px;">
-      <div class="feas-row">
-        <div class="feas-label">Técnica · Backend</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.95"></div></div>
-        <div class="feas-value">95% · Alta</div>
-      </div>
-      <div class="feas-row">
-        <div class="feas-label">Técnica · Android</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.75"></div></div>
-        <div class="feas-value">75% · Media-Alta</div>
-      </div>
-      <div class="feas-row">
-        <div class="feas-label">Técnica · iOS</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.50"></div></div>
-        <div class="feas-value">50% · Media</div>
-      </div>
-      <div class="feas-row">
-        <div class="feas-label">Mercado / Demanda</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.90"></div></div>
-        <div class="feas-value">90% · Alta</div>
-      </div>
-      <div class="feas-row">
-        <div class="feas-label">Económica (bootstrap)</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.85"></div></div>
-        <div class="feas-value">85% · Alta</div>
-      </div>
-      <div class="feas-row">
-        <div class="feas-label">Legal · Ley 1581/2012</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.70"></div></div>
-        <div class="feas-value">70% · Media</div>
-      </div>
-      <div class="feas-row">
-        <div class="feas-label">Operacional (24/7)</div>
-        <div class="feas-bar"><div class="feas-fill" style="--w: 0.65"></div></div>
-        <div class="feas-value">65% · Media</div>
-      </div>
+    <div class="reveal" style="margin-top: 14px; max-width: 980px;">
+      <p>Cada barra muestra <b style="color: var(--text);">qué tan factible es esa pieza del proyecto</b>. Más cerca del 100% = más fácil de lograr. <span style="color: var(--red);">Rojo</span> = riesgo, <span style="color: var(--amber);">amarillo</span> = atención, <span style="color: var(--emerald);">verde</span> = listo para construir.</p>
     </div>
     <div class="reveal" style="margin-top: 24px;">
-      <p style="color: var(--text);"><b style="color: var(--amber);">Riesgo crítico bloqueante:</b> validar con un PoC en Android puro si el OS permite leer el disparador en background sin Accessibility Services (Google Play los rechaza). Ese PoC define la viabilidad del producto entero.</p>
+      <div class="feas-row">
+        <div class="feas-label">El servidor<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">Node.js, base de datos, APIs</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.95"></div></div>
+        <div class="feas-value">95%<br><span style="font-weight: 400; font-size: 0.78rem;">tecnología madura</span></div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">App de Android<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">la app que instala el usuario</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.75"></div></div>
+        <div class="feas-value">75%<br><span style="font-weight: 400; font-size: 0.78rem;">depende del PoC</span></div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">App de iPhone<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">versión para iOS</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.50"></div></div>
+        <div class="feas-value">50%<br><span style="font-weight: 400; font-size: 0.78rem;">después del MVP</span></div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">¿La gente la usaría?<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">demanda real del mercado</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.90"></div></div>
+        <div class="feas-value">90%<br><span style="font-weight: 400; font-size: 0.78rem;">problema real, sin solución</span></div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">¿Alcanza el presupuesto?<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">arrancar con poco capital</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.85"></div></div>
+        <div class="feas-value">85%<br><span style="font-weight: 400; font-size: 0.78rem;">desde $35M COP</span></div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">¿Es legal en Colombia?<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">Ley 1581 de protección de datos</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.70"></div></div>
+        <div class="feas-value">70%<br><span style="font-weight: 400; font-size: 0.78rem;">requiere asesoría</span></div>
+      </div>
+      <div class="feas-row">
+        <div class="feas-label">¿Lo podemos sostener 24/7?<br><span style="font-weight: 400; color: var(--muted); font-size: 0.85rem;">monitoreo y respuesta operativa</span></div>
+        <div class="feas-bar"><div class="feas-fill" style="--w: 0.65"></div></div>
+        <div class="feas-value">65%<br><span style="font-weight: 400; font-size: 0.78rem;">mejora con el tiempo</span></div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 24px; padding: 18px 22px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px;">
+      <p style="color: var(--text); margin: 0;"><b style="color: var(--red);">Lo más arriesgado del proyecto:</b> antes de gastar tiempo en el resto, hay que comprobar con una prueba pequeña que Android nos deja detectar la sacudida cuando el celular está bloqueado o en el bolsillo. <b style="color: var(--text);">Si esa prueba falla, cambiamos la forma de activarlo (botón en pantalla de bloqueo o asistente de voz). Por eso empezamos por ahí.</b></p>
     </div>
   </section>
 
