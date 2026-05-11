@@ -515,7 +515,7 @@
       <h1><span class="gradient-text">Shake</span>SOS</h1>
     </div>
     <div class="reveal" style="margin-top: 12px;">
-      <p style="font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--amber); font-weight: 600; letter-spacing: 0.05em;">Sacude el celular. Avisa a quien te quiere.</p>
+      <p style="font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--amber); font-weight: 600; letter-spacing: 0.05em;">Sacude, presiona o habla. Tu seguridad, a tu manera.</p>
     </div>
     <div class="reveal" style="margin-top: 22px; max-width: 820px;">
       <p class="lead">Una app de seguridad personal donde tu celular solo tiene que decir <b style="color: var(--text);">"estoy en peligro"</b>.<br>El resto lo hace el servidor. <b style="color: var(--amber);">En cualquier teléfono, en cualquier red.</b></p>
@@ -630,7 +630,46 @@
   </section>
 
   <!-- ============================================== -->
-  <!-- SLIDE 5: ARQUITECTURA -->
+  <!-- SLIDE 5: TRES FORMAS DE ACTIVARLO -->
+  <!-- ============================================== -->
+  <section class="slide">
+    <div class="reveal">
+      <span class="pill amber">Personalización</span>
+      <h2>Tres formas de activarlo.<br><span class="gradient-text">Tú eliges.</span></h2>
+    </div>
+    <div class="reveal" style="margin-top: 14px; max-width: 900px;">
+      <p class="lead">No todos vivimos las mismas situaciones. Por eso ShakeSOS te deja escoger <b style="color: var(--amber);">cómo activar la alerta</b> según tu día a día. Podés combinar las tres.</p>
+    </div>
+    <div class="reveal grid-3" style="margin-top: 32px;">
+      <div class="card">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--red), var(--red-deep)); font-size: 1.4rem;">●</div>
+        <h3>Botón</h3>
+        <p style="margin-bottom: 10px;">Un botón rojo grande en la pantalla de bloqueo o como widget en tu pantalla de inicio. Lo presionas y ya.</p>
+        <p style="font-size: 0.85rem; color: var(--text); padding-top: 10px; border-top: 1px solid var(--glass-border);"><b style="color: var(--amber);">Ideal para:</b> personas no tan amigas de la tecnología, adultos mayores, o cuando querés certeza absoluta.</p>
+        <p style="font-size: 0.78rem; color: var(--muted); margin-top: 6px;"><b>Anti-falsos:</b> mantener pulsado 1 segundo.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.04);">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--amber), #d97706); font-size: 1.4rem;">≈</div>
+        <h3>Sacudida <span style="font-size: 0.7rem; color: var(--amber); font-weight: 600; letter-spacing: 0.1em; margin-left: 6px;">★ POR DEFECTO</span></h3>
+        <p style="margin-bottom: 10px;">Sacudís el celular tres veces rápido, incluso desde el bolsillo. Sin sacar el teléfono ni mirar la pantalla.</p>
+        <p style="font-size: 0.85rem; color: var(--text); padding-top: 10px; border-top: 1px solid var(--glass-border);"><b style="color: var(--amber);">Ideal para:</b> salidas nocturnas, transporte público, calle de noche. Cuando no podés ni sacar el celular.</p>
+        <p style="font-size: 0.78rem; color: var(--muted); margin-top: 6px;"><b>Anti-falsos:</b> patrón violento + ventana de 10s para cancelar.</p>
+      </div>
+      <div class="card">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--cyan), #0891b2); font-size: 1.4rem;">♪</div>
+        <h3>Palabra clave (voz)</h3>
+        <p style="margin-bottom: 10px;">Decís una palabra que solo vos conoces (ej. "girasol", "cereza"). El celular la reconoce y se activa.</p>
+        <p style="font-size: 0.85rem; color: var(--text); padding-top: 10px; border-top: 1px solid var(--glass-border);"><b style="color: var(--cyan);">Ideal para:</b> oficina, manejando, o cuando el agresor mira el celular pero no escucha bien.</p>
+        <p style="font-size: 0.78rem; color: var(--muted); margin-top: 6px;"><b>Anti-falsos:</b> reconocimiento solo de tu voz, en el celular (sin enviar audio a nadie).</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top: 22px; text-align: center;">
+      <p style="color: var(--text);">No importa cuál uses — <b style="color: var(--amber);">la respuesta del servidor es siempre la misma</b>: tu familia se entera y ve dónde estás.</p>
+    </div>
+  </section>
+
+  <!-- ============================================== -->
+  <!-- SLIDE 6: ARQUITECTURA -->
   <!-- ============================================== -->
   <section class="slide" style="align-items: center;">
     <div class="reveal" style="text-align: center;">
@@ -658,10 +697,11 @@
         <rect x="30" y="90" width="220" height="200" rx="18" fill="url(#gRed)" opacity="0.18" stroke="url(#gRed)" stroke-width="2"/>
         <text x="140" y="125" fill="#f8fafc" font-size="18" font-weight="800" text-anchor="middle">TU CELULAR</text>
         <text x="140" y="148" fill="#fbbf24" font-size="12" font-weight="600" text-anchor="middle">cualquier gama, cualquier red</text>
-        <text x="140" y="185" fill="#f8fafc" font-size="13" text-anchor="middle">Lo sacudes</text>
-        <text x="140" y="208" fill="#f8fafc" font-size="13" text-anchor="middle">o presionas un botón</text>
-        <text x="140" y="245" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">manda solo una señal corta</text>
-        <text x="140" y="263" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">(funciona offline)</text>
+        <text x="140" y="180" fill="#f8fafc" font-size="13" text-anchor="middle">Lo sacudes,</text>
+        <text x="140" y="200" fill="#f8fafc" font-size="13" text-anchor="middle">presionas un botón</text>
+        <text x="140" y="220" fill="#f8fafc" font-size="13" text-anchor="middle">o dices la palabra clave</text>
+        <text x="140" y="248" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">manda solo una señal corta</text>
+        <text x="140" y="266" fill="#94a3b8" font-size="11" text-anchor="middle" font-style="italic">(funciona offline)</text>
         <circle cx="140" cy="90" r="6" fill="#ef4444" class="ping"/>
 
         <!-- Arrow phone → backend -->
@@ -741,30 +781,33 @@
   <section class="slide">
     <div class="reveal">
       <span class="pill amber">Pregunta clave</span>
-      <h2>¿Y si lo sacudo <span class="gradient-text">sin querer?</span></h2>
+      <h2>¿Y si se activa <span class="gradient-text">sin querer?</span></h2>
     </div>
     <div class="reveal" style="margin-top: 14px; max-width: 900px;">
-      <p class="lead">Una buena pregunta. La respuesta son <b style="color: var(--amber);">tres capas de defensa</b> que evitan que tu celular mande alertas falsas mientras corres, bailas, o lo metes al bolsillo bruscamente.</p>
+      <p class="lead">Cada modo de activación tiene <b style="color: var(--amber);">su propia defensa contra falsos positivos</b>. Y todos comparten una capa final que te da 10 segundos para arrepentirte.</p>
     </div>
-    <div class="reveal grid-3" style="margin-top: 36px;">
+    <div class="reveal grid-3" style="margin-top: 32px;">
       <div class="card">
-        <div class="card-num">①</div>
-        <h3>Detección inteligente</h3>
-        <p>El sistema <b style="color: var(--text);">no se activa con cualquier movimiento</b>. Está calibrado para reconocer solo el patrón de una sacudida violenta y deliberada: tres movimientos bruscos en menos de 1 segundo. Caminar, trotar o botar el celular en la mesa <b style="color: var(--text);">no lo dispara</b>.</p>
+        <div class="card-num" style="background: linear-gradient(135deg, var(--red), var(--red-deep));">●</div>
+        <h3>Si usas Botón</h3>
+        <p>Hay que <b style="color: var(--text);">mantenerlo presionado 1 segundo completo</b>. Un toque accidental no dispara nada. La pantalla muestra un círculo que se llena para confirmar.</p>
+      </div>
+      <div class="card" style="border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.04);">
+        <div class="card-num" style="background: linear-gradient(135deg, var(--amber), #d97706);">≈</div>
+        <h3>Si usas Sacudida</h3>
+        <p>El sensor solo cuenta <b style="color: var(--text);">tres movimientos bruscos en menos de 1 segundo</b>. Caminar, trotar o botar el celular en la mesa no lo dispara. Calibrado con datos reales.</p>
       </div>
       <div class="card">
-        <div class="card-num">②</div>
-        <h3>Ventana de cancelación</h3>
-        <p>Cuando detecta la sacudida, el celular <b style="color: var(--text);">vibra fuerte durante 10 segundos antes de mandar la alerta</b>. Si fue sin querer, tocas la pantalla o aprietas un botón y se cancela. <b style="color: var(--amber);">Solo si esos 10 segundos pasan sin respuesta</b>, sale el aviso a tu familia y al servidor.</p>
-      </div>
-      <div class="card">
-        <div class="card-num">③</div>
-        <h3>Modo seguro opcional</h3>
-        <p>Para usuarios más temerosos a falsos positivos: el "modo seguro" exige <b style="color: var(--text);">dos sacudidas separadas por menos de 5 segundos</b> para disparar. Casi imposible de activar por accidente, pero igual de fácil cuando realmente lo necesitas.</p>
+        <div class="card-num" style="background: linear-gradient(135deg, var(--cyan), #0891b2);">♪</div>
+        <h3>Si usas Voz</h3>
+        <p>El reconocimiento está <b style="color: var(--text);">entrenado solo con tu voz</b> y debe escuchar la palabra dos veces. Cualquier otra persona o un audio de TV no la activan.</p>
       </div>
     </div>
-    <div class="reveal" style="margin-top: 28px; padding: 18px 22px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px;">
-      <p style="color: var(--text); margin: 0;"><b style="color: var(--emerald);">Bonus:</b> cada usuario aprende. Si cancelas muchas alarmas falsas, el sistema ajusta automáticamente la sensibilidad de tu sacudida. <b style="color: var(--text);">Con el tiempo, conoce tu manera de moverte.</b></p>
+    <div class="reveal" style="margin-top: 26px; padding: 20px 26px; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px;">
+      <p style="color: var(--text); margin: 0; font-size: 1.05rem;"><b style="color: var(--red);">Capa común — la red de seguridad.</b> Sea cual sea el modo, cuando se detecta la activación el celular <b style="color: var(--amber);">vibra fuerte durante 10 segundos antes de enviar la alerta</b>. Tocas la pantalla, sacudes otra vez o aprietas un botón → se cancela. <b>Solo si esos 10 segundos pasan en silencio</b>, sale el aviso al servidor y a tu familia.</p>
+    </div>
+    <div class="reveal" style="margin-top: 14px; padding: 14px 22px; background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px;">
+      <p style="color: var(--text); margin: 0; font-size: 0.98rem;"><b style="color: var(--emerald);">Bonus:</b> el sistema aprende de tus cancelaciones y ajusta automáticamente la sensibilidad. Con el tiempo, conoce tu manera de moverte y hablar.</p>
     </div>
   </section>
 
@@ -1015,7 +1058,7 @@
       <div class="tl-item">
         <div class="tl-dot"></div>
         <h3 style="color: var(--red);">Mes 1 · PoC Bloqueante</h3>
-        <p>Validar en Android puro: lectura de gestos en background, viabilidad sin Accessibility Services, pruebas con Quick Settings Tile y Assistant Shortcut. <b style="color: var(--text);">Sin este veredicto, no se construye nada más.</b></p>
+        <p>Validar en Android puro los <b style="color: var(--text);">tres modos de activación</b>: detección de sacudida en background, botón en pantalla de bloqueo (widget + Quick Settings Tile), y reconocimiento de palabra clave en local (TF Lite). <b style="color: var(--text);">Sin este veredicto, no se construye nada más.</b></p>
       </div>
       <div class="tl-item amber">
         <div class="tl-dot"></div>
